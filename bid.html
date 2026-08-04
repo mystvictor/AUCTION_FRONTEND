@@ -17,6 +17,11 @@
 
   <!-- Custom Style Overrides for Layout Fixes -->
   <style>
+    body {
+      /* Add space at the bottom for the fixed footer on desktop */
+      padding-bottom: 5px;
+    }
+
     /* 1. Limit description height on larger screens to prevent it from pushing content up */
     .details p {
       max-height: 120px; /* Approx. 5-6 lines of text */
@@ -47,7 +52,8 @@
     /* 2. Fix mobile layout where image overlaps top actions */
     @media (max-width: 768px) {
       body {
-        padding-top: 70px; /* Adjust space for single-line fixed header */
+        padding-top: 100px; /* Adjust space for two-line fixed header */
+        padding-bottom: 0; /* Remove footer padding on mobile */
       }
 
       .top-actions {
@@ -60,12 +66,33 @@
         -webkit-backdrop-filter: blur(5px); /* Safari support */
         backdrop-filter: blur(5px);
         z-index: 100;
-        /* Arrange items on a single line */
-        flex-direction: row;
-        justify-content: space-between; /* Pushes items to opposite ends */
-        align-items: center; /* Vertically centers items */
+        /* Stack items and align to the right */
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 8px; /* Add space between the two lines */
+      }
+
+      .legal-footer {
+        display: none; /* Hide legal links on small screens */
       }
     }
+
+    /* 3. Style for the fixed legal footer */
+    .legal-footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 15px;
+      text-align: right; /* Align right on large screens */
+      font-size: 13px;
+      z-index: 100;
+    }
+
+    .legal-footer a { color: #9ca3af; text-decoration: none; margin: 0 10px; }
+    .legal-footer a:hover { color: #d4af37; }
+    .legal-footer span { color: #555; }
+
   </style>
 </head>
 
@@ -109,6 +136,12 @@
     </div>
   </section>
 
+  <!-- LEGAL FOOTER -->
+  <footer class="legal-footer">
+    <a href="terms-and-conditions.html" target="_blank">Terms & Conditions</a>
+    <span>&bull;</span>
+    <a href="privacy-policy.html" target="_blank">Privacy Policy</a>
+  </footer>
 
   <!-- REAL-TIME ENABLED MODAL -->
   <div class="modal" id="modal">
