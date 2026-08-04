@@ -1,0 +1,309 @@
+* {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+}
+
+body {
+        font-family: 'Raleway', sans-serif;
+        background: #05070d;
+        color: white;
+        overflow: hidden;
+}
+
+.background {
+        position: fixed;
+        inset: 0;
+        background: radial-gradient(circle at top, #293241 0%, #111827 40%, #05070d 100%);
+}
+
+/* -------------------------------------------------------------
+   TOP ACTIONS: Right-aligned block with left-side Raleway Greeting
+   ------------------------------------------------------------- */
+.top-actions {
+        position: fixed;
+        top: 30px;
+        right: 40px;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+}
+
+.user-greeting {
+        font-family: 'Raleway', sans-serif;
+        font-size: 15px;
+        display: flex;
+        align-items: baseline;
+        gap: 6px;
+        letter-spacing: 0.5px;
+}
+
+.user-label {
+        color: #94a3b8;
+        font-weight: 300;
+}
+
+.user-name {
+        color: #d4af37;
+        font-weight: 600;
+        font-size: 16px;
+}
+
+#logoutButton {
+        width: auto;
+        padding: 10px 22px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, .06);
+        border: 1px solid rgba(255, 255, 255, .12);
+        color: #cbd5e1;
+        font-size: 13px;
+        font-weight: 500;
+        letter-spacing: .5px;
+        cursor: pointer;
+        transition: .3s;
+        backdrop-filter: blur(10px);
+}
+
+#logoutButton:hover {
+        color: white;
+        border-color: rgba(212, 175, 55, .5);
+        background: rgba(255, 255, 255, .1);
+}
+
+/* -------------------------------------------------------------
+   HERO & AUCTION CARD
+   ------------------------------------------------------------- */
+.hero {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        padding: 60px;
+}
+
+.auction-card {
+        width: min(1200px, 100%);
+        display: grid;
+        grid-template-columns: 1.15fr 0.85fr;
+        gap: 70px;
+        align-items: center;
+}
+
+.image-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+}
+
+.image-container img {
+        width: 100%;
+        max-width: 600px;
+        aspect-ratio: 4/5;
+        object-fit: cover;
+        border-radius: 22px;
+        box-shadow: 0 40px 80px rgba(0, 0, 0, .45);
+        border: 1px solid rgba(255, 255, 255, .08);
+}
+
+.details h1 {
+        font-size: 58px;
+        margin: 20px 0;
+        line-height: 1.1;
+}
+
+.details p {
+        color: #c8d0dc;
+        line-height: 1.8;
+        font-size: 17px;
+}
+
+.badge {
+        display: inline-flex;
+        padding: 8px 18px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, .08);
+        color: #7dd3fc;
+        font-size: 13px;
+        letter-spacing: 1px;
+}
+
+.badge.closed {
+        background: rgba(239, 68, 68, .15);
+        color: #f87171;
+}
+
+#countdown {
+        color: #facc15;
+}
+
+.price-box {
+        margin: 45px 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 28px;
+        border-radius: 18px;
+        background: rgba(255, 255, 255, .05);
+        border: 1px solid rgba(255, 255, 255, .05);
+}
+
+.price-box small {
+        color: #94a3b8;
+}
+
+.price-box h2 {
+        margin-top: 8px;
+        font-size: 48px;
+        color: #4ade80;
+}
+
+.pulse {
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: #4ade80;
+        animation: pulse 1.5s infinite;
+}
+
+button {
+        width: 100%;
+        border: none;
+        cursor: pointer;
+        border-radius: 14px;
+        padding: 18px;
+        color: white;
+        font-size: 18px;
+        font-weight: 600;
+        transition: .3s;
+}
+
+#bidButton {
+        background: linear-gradient(135deg, #4f46e5, #7c3aed);
+}
+
+#bidButton:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 20px 45px rgba(99, 102, 241, .45);
+}
+
+.modal {
+        position: fixed;
+        inset: 0;
+        display: none;
+        justify-content: center;
+        align-items: center;
+        background: rgba(0, 0, 0, .7);
+        backdrop-filter: blur(10px);
+}
+
+.modal.active {
+        display: flex;
+}
+
+.dialog {
+        width: 420px;
+        padding: 35px;
+        border-radius: 22px;
+        background: #111827;
+}
+
+.dialog h2 {
+        margin-bottom: 20px;
+}
+
+.dialog input {
+        width: 100%;
+        padding: 18px;
+        border: none;
+        border-radius: 12px;
+        background: #1f2937;
+        color: white;
+        font-size: 18px;
+        margin-bottom: 25px;
+}
+
+.buttons {
+        display: flex;
+        gap: 12px;
+}
+
+.cancel {
+        background: #374151;
+}
+
+.submit {
+        background: #10b981;
+}
+
+@keyframes pulse {
+        0% {
+                transform: scale(1);
+                opacity: 1;
+        }
+
+        100% {
+                transform: scale(2);
+                opacity: 0;
+        }
+}
+
+@media(max-width:1000px) {
+        body {
+                overflow: auto;
+        }
+
+        .hero {
+                height: auto;
+                padding: 40px 25px;
+        }
+
+        .auction-card {
+                grid-template-columns: 1fr;
+                gap: 40px;
+        }
+
+        .details h1 {
+                font-size: 42px;
+        }
+
+        .image-container img {
+                max-width: 500px;
+        }
+
+        .top-actions {
+                top: 20px;
+                right: 20px;
+        }
+}
+
+/* SweetAlert2 Typography Overrides */
+.swal2-popup,
+.swal2-title,
+.swal2-html-container,
+.swal2-confirm,
+.swal2-cancel {
+        font-family: 'Raleway', sans-serif !important;
+}
+
+/* Legal Footer */
+.legal-footer {
+        position: fixed;
+        bottom: 30px;
+        right: 40px;
+        text-align: right;
+        font-size: 13px;
+        z-index: 10;
+}
+
+.legal-footer a, .legal-footer span {
+        color: #9ca3af;
+        text-decoration: none;
+        margin: 0 8px;
+        transition: color 0.2s;
+}
+
+.legal-footer a:hover {
+        color: #d4af37;
+}

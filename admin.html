@@ -1,0 +1,612 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Auction Control Center</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css"
+    />
+
+    <link rel="stylesheet" href="css/admin.css" />
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  </head>
+
+  <body>
+    <div class="admin-container">
+      <!-- HEADER -->
+      <header class="admin-header">
+        <div class="header-title">
+          <h1>Auction Control Center</h1>
+          <p>Live Auction Operations & Session Management</p>
+        </div>
+
+        <div class="header-actions">
+          <span id="wsStatus" class="ws-badge disconnected">
+            Disconnected
+          </span>
+
+          <button id="logoutBtn" class="btn btn-secondary">Exit Admin</button>
+        </div>
+      </header>
+
+      <!-- LIVE AUCTION MONITOR -->
+      <section class="realtime-banner">
+        <div class="banner-title">
+          <span class="pulse-indicator"></span>
+
+          <h2>LIVE ACTIVE AUCTION</h2>
+        </div>
+
+        <div class="monitor-card">
+          <div class="monitor-image">
+            <img
+              id="liveImage"
+              src="images/painting.jpeg"
+              alt="Active Artwork"
+            />
+          </div>
+
+          <div class="monitor-details">
+            <h3 id="liveTitle">Loading active auction...</h3>
+
+            <p id="liveDescription">Connecting to realtime feed...</p>
+
+            <div class="monitor-stats">
+              <div class="stat-card">
+                <div class="stat-icon">
+                  <i data-lucide="banknote"></i>
+                </div>
+                <div class="stat-info">
+                  <span id="livePrice" class="stat-value"> $ -- </span>
+                  <small> Highest Bid </small>
+                </div>
+              </div>
+
+              <div class="stat-card">
+                <div class="stat-icon">
+                  <i data-lucide="gavel"></i>
+                </div>
+                <div class="stat-info">
+                  <span id="liveBidCount" class="stat-value"> -- </span>
+                  <small> Total Bids </small>
+                </div>
+              </div>
+
+              <div class="stat-card">
+                <div class="stat-icon">
+                  <i data-lucide="timer"></i>
+                </div>
+                <div class="stat-info">
+                  <span id="liveCountdown" class="stat-value"> --:--:-- </span>
+                  <small> Time Remaining </small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TABS -->
+      <nav class="admin-tabs">
+        <button class="tab-btn active" data-tab="auctionsTab">Auctions</button>
+
+        <button class="tab-btn" data-tab="bidsTab">Bids</button>
+
+        <button class="tab-btn" data-tab="sessionsTab">Sessions</button>
+      </nav>
+
+      <main class="admin-content">
+        <!-- =========================
+             AUCTIONS TAB
+        ========================= -->
+        <section id="auctionsTab" class="tab-content active">
+          <div class="section-header">
+            <h2>Auctions Catalog</h2>
+
+            <button id="createAuctionBtn" class="btn btn-primary">
+              + Create Auction
+            </button>
+          </div>
+
+          <div class="table-wrapper">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th class="col-center">Image</th>
+                  <th class="col-center">Status</th>
+                  <th class="col-left">Title</th>
+                  <th class="col-right">Starting Bid</th>
+                  <th class="col-right">Highest Bid</th>
+                  <th class="col-right">End Time</th>
+                  <th class="col-center">Actions</th>
+                </tr>
+              </thead>
+
+              <tbody id="auctionsTableBody">
+                <tr>
+                  <td colspan="7" class="loading-cell">Loading auctions...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- =========================
+             BIDS TAB
+        ========================= -->
+        <section id="bidsTab" class="tab-content">
+          <div class="section-header">
+            <h2>Bid History</h2>
+          </div>
+
+          <div class="table-wrapper">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th class="col-left">Auction</th>
+                  <th class="col-left">Bidder</th>
+                  <th class="col-right">Amount</th>
+                  <th class="col-right">Timestamp</th>
+                </tr>
+              </thead>
+
+              <tbody id="bidsTableBody">
+                <tr>
+                  <td colspan="4" class="loading-cell">Loading bids...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- =========================
+             SESSIONS TAB
+        ========================= -->
+        <section id="sessionsTab" class="tab-content">
+          <div class="section-header">
+            <h2>Access Sessions</h2>
+
+            <button id="createSessionBtn" class="btn btn-primary">
+              + Generate Session Key
+            </button>
+          </div>
+
+          <div class="table-wrapper">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th class="col-left">Key</th>
+                  <th class="col-center">Active</th>
+                  <th class="col-center">Admin</th>
+                  <th class="col-left">Name</th>
+                  <th class="col-left">Phone</th>
+                  <th class="col-left">Expiration Date</th>
+                  <th class="col-center">Actions</th>
+                </tr>
+              </thead>
+
+              <tbody id="sessionsTableBody">
+                <tr>
+                  <td colspan="7" class="loading-cell">Loading sessions...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <!-- =========================
+       AUCTION CREATE/EDIT MODAL
+    ========================= -->
+    <div id="auctionModal" class="modal-overlay">
+      <div class="modal-card modal-large">
+        <div class="modal-header">
+          <h3 id="modalTitle">Create New Auction</h3>
+          <button type="button" class="close-modal" id="closeAuctionModal">
+            &times;
+          </button>
+        </div>
+
+        <form id="auctionForm">
+          <input type="hidden" id="auctionId" />
+
+          <!-- Title & Image URL -->
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label for="auctionTitle">Title</label>
+              <input
+                type="text"
+                id="auctionTitle"
+                class="form-control"
+                placeholder="e.g. Vintage Rolex Submariner"
+                required
+              />
+            </div>
+            <div class="form-group col-6">
+              <label for="auctionImageUrl">Image URL</label>
+              <input
+                type="text"
+                id="auctionImageUrl"
+                class="form-control"
+                placeholder="images/painting.jpeg"
+              />
+            </div>
+          </div>
+
+          <!-- Description -->
+          <div class="form-group">
+            <label for="auctionDescription">Description</label>
+            <textarea
+              id="auctionDescription"
+              class="form-control"
+              rows="2"
+              placeholder="Detailed item description..."
+            ></textarea>
+          </div>
+
+          <!-- Grid Row for Starting Bid & Status -->
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label for="startingBid">Starting Bid ($)</label>
+              <input
+                type="number"
+                id="startingBid"
+                class="form-control"
+                step="0.01"
+                min="0"
+                placeholder="0.00"
+                required
+              />
+            </div>
+
+            <!-- Custom Modern Dropdown for Status -->
+            <div class="form-group col-6">
+              <label>Auction Status</label>
+              <div class="custom-select-wrapper">
+                <div class="custom-select" id="customStatusSelect">
+                  <div class="custom-select-trigger" id="statusSelectTrigger">
+                    <span class="status-indicator status-draft"></span>
+                    <span id="statusTriggerText">Draft</span>
+                    <i class="chevron-icon">▾</i>
+                  </div>
+                  <div class="custom-options">
+                    <div class="custom-option selected" data-value="draft">
+                      <span class="status-indicator status-draft"></span> Draft
+                    </div>
+                    <div class="custom-option" data-value="active">
+                      <span class="status-indicator status-active"></span>
+                      Active
+                    </div>
+                    <div class="custom-option" data-value="ended">
+                      <span class="status-indicator status-ended"></span> Completed
+                    </div>
+                  </div>
+                </div>
+                <input
+                  type="hidden"
+                  id="auctionStatus"
+                  name="status"
+                  value="draft"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- Grid Row for Start & End Time (Flatpickr Calendars) -->
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label for="startTime">Start Date & Time</label>
+              <div class="calendar-input-wrapper">
+                <input
+                  type="text"
+                  id="startTime"
+                  class="form-control datepicker"
+                  placeholder="Select start time..."
+                  required
+                />
+                <span class="calendar-icon">📅</span>
+              </div>
+            </div>
+
+            <div class="form-group col-6">
+              <label for="endTime">End Date & Time</label>
+              <div class="calendar-input-wrapper">
+                <input
+                  type="text"
+                  id="endTime"
+                  class="form-control datepicker"
+                  placeholder="Select end time..."
+                  required
+                />
+                <span class="calendar-icon">📅</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Modal Footer -->
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              id="cancelAuctionBtn"
+            >
+              Cancel
+            </button>
+            <button type="submit" class="btn btn-primary" id="saveAuctionBtn">
+              Save Auction
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- =========================
+         SESSION MODAL
+    ========================= -->
+    <div id="sessionModal" class="modal-overlay">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3 id="sessionModalTitle">Generate Session Key</h3>
+          <button class="close-modal">&times;</button>
+        </div>
+
+        <form id="sessionForm">
+          <input type="hidden" id="sessionIdInput" />
+
+          <div class="form-group">
+            <label for="sessionKeyInput">Session Key</label>
+            <input
+              type="text"
+              id="sessionKeyInput"
+              placeholder="Auto-generated if empty"
+            />
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label for="contactNameInput">Contact Name</label>
+              <input type="text" id="contactNameInput" placeholder="John Doe" />
+            </div>
+            <div class="form-group col-6">
+              <label for="contactEmailInput">Contact Email</label>
+              <input
+                type="email"
+                id="contactEmailInput"
+                placeholder="john@example.com"
+              />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label for="contactPhoneInput">Contact Phone</label>
+              <input
+                type="text"
+                id="contactPhoneInput"
+                placeholder="+1 (555) 000-0000"
+              />
+            </div>
+            <div class="form-group col-6">
+              <label for="expiresAtInput">Expires At</label>
+              <input
+                type="text"
+                id="expiresAtInput"
+                class="date-picker-input"
+                placeholder="Select expiration date..."
+              />
+            </div>
+          </div>
+
+          <div class="modal-checkbox-row">
+            <label class="checkbox-label">
+              <input type="checkbox" id="activeCheckbox" checked />
+              <span>Active Session</span>
+            </label>
+
+            <label class="checkbox-label">
+              <input type="checkbox" id="adminCheckbox" />
+              <span>Admin Privileges</span>
+            </label>
+          </div>
+
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              onclick="closeModals()"
+            >
+              Cancel
+            </button>
+            <button type="submit" class="btn btn-primary">Save Session</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- =========================
+         AUCTION DETAILS MODAL
+    ========================= -->
+    <div id="detailsModal" class="modal-overlay">
+      <div class="modal-card modal-large">
+        <div class="modal-header">
+          <h3 id="detailsModalTitle">Auction Details</h3>
+          <button class="close-modal">&times;</button>
+        </div>
+
+        <div class="details-body">
+          <!-- Top: Thumbnail & Description Header -->
+          <div class="details-header">
+            <img
+              id="detailsImage"
+              src=""
+              alt="Auction Thumbnail"
+              class="details-thumb"
+            />
+            <div class="details-text">
+              <h4 id="detailsTitle">--</h4>
+              <p id="detailsDescription">--</p>
+            </div>
+          </div>
+
+          <!-- Middle: Meta Grid -->
+          <div class="details-meta-grid">
+            <div class="meta-card">
+              <small>Starting Bid</small>
+              <span id="detailsStartingBid">$ --</span>
+            </div>
+            <div class="meta-card">
+              <small>Highest Bid</small>
+              <span id="detailsHighestBid">$ --</span>
+            </div>
+            <div class="meta-card">
+              <small>Auction Starts</small>
+              <span id="detailsStartTime">--</span>
+            </div>
+            <div class="meta-card">
+              <small>Auction Ends</small>
+              <span id="detailsEndTime">--</span>
+            </div>
+          </div>
+
+          <hr class="details-divider" />
+
+          <!-- WINNER INFO CARD (Only for 'completed' auctions) -->
+          <div id="winnerInfoCard" class="winner-card" style="display: none;">
+            <div class="winner-header">
+              <i data-lucide="crown"></i>
+              <h4>Winning Bidder Information</h4>
+            </div>
+            <div class="winner-body">
+              <div class="winner-stat">
+                <small>Final Bid</small>
+                <span id="winnerAmount">$ --</span>
+              </div>
+              <div class="winner-contact">
+                <div class="contact-item">
+                  <i data-lucide="user"></i>
+                  <span id="winnerName">--</span>
+                </div>
+                <div class="contact-item">
+                  <i data-lucide="mail"></i>
+                  <span id="winnerEmail">--</span>
+                </div>
+                <div class="contact-item">
+                  <i data-lucide="phone"></i>
+                  <span id="winnerPhone">--</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- BIDS HISTORY (For 'active' or other non-completed auctions) -->
+          <div id="detailsBidsSection" class="details-bids-section">
+            <h4>Recent Bids</h4>
+            <div class="table-wrapper">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th class="col-left">Timestamp</th>
+                    <th class="col-center">Session Key</th>
+                    <th class="col-right">Amount</th>
+                  </tr>
+                </thead>
+                <tbody id="detailsBidsTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary close-modal">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- =========================
+         SESSION DETAILS MODAL
+    ========================= -->
+    <div id="sessionDetailsModal" class="modal-overlay">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3>Session Details</h3>
+          <button class="close-modal">&times;</button>
+        </div>
+
+        <div class="session-details-body">
+          <div class="detail-row">
+            <span class="detail-label">Session Key</span>
+            <code id="sessionDetailKey" class="detail-value">--</code>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Status</span>
+            <span id="sessionDetailStatus" class="detail-value">--</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Role</span>
+            <span id="sessionDetailRole" class="detail-value">--</span>
+          </div>
+
+          <hr class="details-divider" />
+
+          <div class="detail-row">
+            <span class="detail-label">Contact Name</span>
+            <span id="sessionDetailName" class="detail-value">--</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Contact Email</span>
+            <span id="sessionDetailEmail" class="detail-value">--</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Contact Phone</span>
+            <span id="sessionDetailPhone" class="detail-value">--</span>
+          </div>
+
+          <hr class="details-divider" />
+
+          <div class="detail-row">
+            <span class="detail-label">Created At</span>
+            <span id="sessionDetailCreated" class="detail-value">--</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Expires At</span>
+            <span id="sessionDetailExpires" class="detail-value">--</span>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary close-modal">Close</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+      lucide.createIcons();
+    </script>
+    <script src="js/admin.js"></script>
+    <script src="js/auctions.js"></script>
+    <script src="js/bids.js"></script>
+    <script src="js/sessions.js"></script>
+  </body>
+</html>

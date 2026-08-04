@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Premium Art Auction</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- Raleway & Inter Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/style.css" />
+
+  <!-- Custom Style Overrides for Layout Fixes -->
+  <style>
+    /* 1. Limit description height on larger screens to prevent it from pushing content up */
+    .details p {
+      max-height: 120px; /* Approx. 5-6 lines of text */
+      overflow-y: auto;
+      padding-right: 10px; /* Add space for the scrollbar */
+      margin-bottom: 1.5rem;
+    }
+
+    /* Custom scrollbar for the description box */
+    .details p::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .details p::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 3px;
+    }
+
+    .details p::-webkit-scrollbar-thumb {
+      background: #555;
+      border-radius: 3px;
+    }
+
+    .details p::-webkit-scrollbar-thumb:hover {
+      background: #777;
+    }
+
+    /* 2. Fix mobile layout where image overlaps top actions */
+    @media (max-width: 768px) {
+      body {
+        padding-top: 80px; /* Add space at the top for the fixed actions */
+      }
+
+      .top-actions {
+        position: fixed; /* Fix the header to the top */
+        top: 0;
+        left: 0;
+        right: 0;
+        padding: 15px;
+        background-color: rgba(11, 15, 23, 0.8); /* Add a semi-transparent background */
+        backdrop-filter: blur(5px);
+        z-index: 100;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="background"></div>
+
+  <!-- Top Action Container aligned to the right, with Welcome text positioned to the left of the button -->
+  <div class="top-actions">
+    <div class="user-greeting">
+      <span class="user-label">Welcome,</span>
+      <span id="bidderName" class="user-name">Participant</span>
+    </div>
+    <button id="logoutButton">Exit Gallery</button>
+  </div>
+
+  <section class="hero">
+    <div class="auction-card">
+      <div class="image-container">
+        <img src="images/painting.jpeg" alt="Loading Painting..." id="painting" />
+      </div>
+
+      <div class="details">
+        <span class="badge">
+          LIVE AUCTION | Ends in&nbsp;<span id="countdown">Loading...</span>
+        </span>
+
+        <h1>Loading Auction Title...</h1>
+
+        <p>Loading item description...</p>
+
+        <div class="price-box">
+          <div>
+            <small>Current Highest Bid</small>
+            <h2 id="price">$ --</h2>
+          </div>
+          <div class="pulse"></div>
+        </div>
+
+        <button id="bidButton">Place Bid</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- LEGAL FOOTER -->
+  <footer class="legal-footer">
+    <a href="terms-and-conditions.html" target="_blank">Terms & Conditions</a>
+    <span>&bull;</span>
+    <a href="privacy-policy.html" target="_blank">Privacy Policy</a>
+  </footer>
+
+
+  <!-- REAL-TIME ENABLED MODAL -->
+  <div class="modal" id="modal">
+    <div class="dialog">
+      <h2>Place Your Bid</h2>
+
+      <!-- Live Bid Threshold Indicator -->
+      <p class="modal-hint" style="margin-bottom: 20px; font-size: 0.9rem; color: #9ca3af; text-align: left;">
+        Current Highest Bid: <strong id="modalCurrentThreshold" style="color: #d4af37;">$ --</strong>
+      </p>
+
+      <input id="bidInput" type="number" placeholder="Enter your amount" />
+
+      <div class="buttons">
+        <button class="cancel" id="cancel">Cancel</button>
+        <button class="submit" id="submit">Submit Bid</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="js/app.js"></script>
+</body>
+
+</html>

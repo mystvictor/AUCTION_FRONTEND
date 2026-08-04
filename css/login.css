@@ -1,0 +1,470 @@
+* {
+
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+
+}
+
+
+body {
+
+        font-family: "Inter", sans-serif;
+
+        height: 100vh;
+
+        overflow: hidden;
+
+        color: white;
+
+}
+
+
+
+.background {
+
+        position: fixed;
+
+        inset: 0;
+
+        background:
+
+                radial-gradient(circle at top left, #1f2937, #070b14 45%);
+
+}
+
+
+
+.orb {
+
+        position: absolute;
+
+        border-radius: 50%;
+
+        filter: blur(80px);
+
+        opacity: .35;
+
+}
+
+
+
+.orb-one {
+
+        width: 400px;
+
+        height: 400px;
+
+        background: #d4af37;
+
+        top: -150px;
+
+        left: -100px;
+
+}
+
+
+
+.orb-two {
+
+        width: 350px;
+
+        height: 350px;
+
+        background: #6366f1;
+
+        right: -100px;
+
+        bottom: -120px;
+
+}
+
+
+
+
+.container {
+
+
+        height: 100vh;
+
+        display: flex;
+
+        justify-content: center;
+
+        align-items: center;
+
+        padding: 30px;
+
+        position: relative;
+
+
+}
+
+
+
+
+.login-card {
+
+
+        width: 430px;
+
+        padding: 55px 45px;
+
+
+        background:
+
+                rgba(255, 255, 255, .06);
+
+
+        border:
+
+                1px solid rgba(255, 255, 255, .12);
+
+
+        backdrop-filter: blur(20px);
+
+
+        border-radius: 28px;
+
+
+        text-align: center;
+
+
+        box-shadow:
+
+                0 40px 100px rgba(0, 0, 0, .5);
+
+
+        animation:
+
+                appear .8s ease;
+
+
+}
+
+
+
+
+.logo {
+
+
+        display: flex;
+
+        justify-content: center;
+
+        align-items: center;
+
+        gap: 12px;
+
+        font-size: 13px;
+
+        letter-spacing: 4px;
+
+        color: #d4af37;
+
+        margin-bottom: 35px;
+
+}
+
+
+
+.logo span {
+
+
+        width: 35px;
+
+        height: 1px;
+
+        background: #d4af37;
+
+
+}
+
+
+
+h1 {
+
+
+        font-size: 32px;
+
+        line-height: 1.2;
+
+        margin-bottom: 15px;
+
+
+}
+
+
+
+.subtitle {
+
+
+        color: #a5b4fc;
+
+        line-height: 1.7;
+
+        font-size: 15px;
+
+        margin-bottom: 40px;
+
+
+}
+
+
+
+
+.code-container {
+
+
+        display: flex;
+
+        justify-content: center;
+
+        gap: 12px;
+
+        margin-bottom: 35px;
+
+
+}
+
+
+
+.code-input {
+
+
+        width: 48px;
+
+        height: 60px;
+
+
+        text-align: center;
+
+
+        font-size: 28px;
+
+        font-weight: 600;
+
+
+        color: white;
+
+
+        background:
+
+                rgba(255, 255, 255, .08);
+
+
+        border:
+
+                1px solid rgba(255, 255, 255, .15);
+
+
+        border-radius: 12px;
+
+
+        outline: none;
+
+
+        transition: .25s;
+
+
+}
+
+
+
+.code-input:focus {
+
+
+        border-color: #d4af37;
+
+
+        box-shadow:
+
+                0 0 20px rgba(212, 175, 55, .35);
+
+
+        transform: translateY(-3px);
+
+
+}
+
+
+
+
+
+button {
+
+
+        width: 100%;
+
+
+        padding: 17px;
+
+
+        border: none;
+
+
+        border-radius: 14px;
+
+
+        cursor: pointer;
+
+
+        font-size: 17px;
+
+
+        font-weight: 600;
+
+
+        color: #111;
+
+
+        background:
+
+                linear-gradient(135deg,
+
+                        #f5d76e,
+
+                        #d4af37);
+
+
+        transition: .3s;
+
+
+}
+
+
+
+button:hover {
+
+
+        transform: translateY(-3px);
+
+
+        box-shadow:
+
+                0 20px 40px rgba(212, 175, 55, .35);
+
+
+}
+
+
+
+
+.security {
+
+
+        margin-top: 30px;
+
+
+        color: #94a3b8;
+
+
+        font-size: 13px;
+
+
+        letter-spacing: 1px;
+
+
+}
+
+
+.security span {
+
+        color: #d4af37;
+
+}
+
+
+
+@keyframes appear {
+
+
+        from {
+
+                opacity: 0;
+
+                transform: translateY(30px);
+
+        }
+
+
+        to {
+
+                opacity: 1;
+
+                transform: none;
+
+        }
+
+
+}
+
+
+
+@media(max-width:600px) {
+
+
+        .login-card {
+
+                padding: 40px 25px;
+
+        }
+
+
+        .code-input {
+
+                width: 42px;
+
+                height: 55px;
+
+        }
+
+
+        h1 {
+
+                font-size: 26px;
+
+        }
+
+
+}
+
+/* SweetAlert2 Custom Typography */
+
+.swal2-popup {
+
+        font-family: "Inter", sans-serif !important;
+
+}
+
+
+.swal2-title {
+
+        font-family: "Inter", sans-serif !important;
+
+        font-weight: 600 !important;
+
+        letter-spacing: -0.5px;
+
+}
+
+
+.swal2-html-container {
+
+        font-family: "Inter", sans-serif !important;
+
+        font-weight: 400 !important;
+
+        color: #cbd5e1 !important;
+
+}
+
+
+.swal2-confirm,
+.swal2-cancel {
+
+        font-family: 'Raleway', sans-serif !important;
+
+        font-weight: 600 !important;
+
+}
