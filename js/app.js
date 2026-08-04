@@ -47,6 +47,7 @@ const bidButton = document.getElementById("bidButton");
 const submitButton = document.getElementById("submit");
 const cancelButton = document.getElementById("cancel");
 const logoutButton = document.getElementById("logoutButton");
+const pulseIndicator = document.querySelector(".pulse");
 const bidderNameElement = document.getElementById("bidderName");
 
 // Populate Bidder Name from session payload
@@ -290,6 +291,16 @@ function startCountdown(endTime) {
 
     if (countdownElement) {
       countdownElement.innerHTML = `${hours}h ${minutes}m ${seconds}s`;
+    }
+
+    // Change pulse color to warning if less than 2 hours remain
+    const twoHoursInMs = 2 * 60 * 60 * 1000;
+    if (pulseIndicator) {
+      if (difference <= twoHoursInMs) {
+        pulseIndicator.classList.add("warning");
+      } else {
+        pulseIndicator.classList.remove("warning");
+      }
     }
   }
 

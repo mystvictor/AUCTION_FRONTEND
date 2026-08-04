@@ -49,6 +49,12 @@
       background: #777;
     }
 
+    /* Style for the pulse indicator when time is low */
+    .pulse.warning {
+      background-color: #f59e0b; /* Amber 500 */
+      box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7);
+    }
+
     /* 2. Fix mobile layout where image overlaps top actions */
     @media (max-width: 768px) {
       body {
@@ -73,6 +79,7 @@
       }
       
       .hero .badge {
+        display: block; /* Make it a block-level element to allow centering */
         text-align: center; /* Center the badge text on mobile */
       }
 
