@@ -47,7 +47,7 @@
     /* 2. Fix mobile layout where image overlaps top actions */
     @media (max-width: 768px) {
       body {
-        padding-top: 80px; /* Add space at the top for the fixed actions */
+        padding-top: 70px; /* Adjust space for single-line fixed header */
       }
 
       .top-actions {
@@ -57,8 +57,13 @@
         right: 0;
         padding: 15px;
         background-color: rgba(11, 15, 23, 0.8); /* Add a semi-transparent background */
+        -webkit-backdrop-filter: blur(5px); /* Safari support */
         backdrop-filter: blur(5px);
         z-index: 100;
+        /* Arrange items on a single line */
+        flex-direction: row;
+        justify-content: space-between; /* Pushes items to opposite ends */
+        align-items: center; /* Vertically centers items */
       }
     }
   </style>
@@ -103,13 +108,6 @@
       </div>
     </div>
   </section>
-
-  <!-- LEGAL FOOTER -->
-  <footer class="legal-footer">
-    <a href="terms-and-conditions.html" target="_blank">Terms & Conditions</a>
-    <span>&bull;</span>
-    <a href="privacy-policy.html" target="_blank">Privacy Policy</a>
-  </footer>
 
 
   <!-- REAL-TIME ENABLED MODAL -->
